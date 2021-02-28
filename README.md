@@ -12,10 +12,10 @@
 ![PEST test](data/images/pest.png?raw=true "PEST test")
 
 ## Features
-- NO use of existing frameworks ()created NanoFramework just for task)
+- NO use of existing frameworks (created NanoFramework just for task)
 - NO use of external modules/libraries
 - Docker container for php8 & composer
-- GitHub Actions CI\CD
+- GitHub [Actions](https://github.com/GeorgII-web/supermetrics/runs/1999544319?check_suite_focus=true) CI\CD
 - Composer & PSR autoload
 - Curl multi execution, query urls in parallel
 - Custom exceptions
