@@ -63,7 +63,7 @@ try {
     Console::success('c. - Total posts split by week number. "year-week":posts_count');
     Console::line(json_encode($statResult['totalPostCountByWeek'], JSON_THROW_ON_ERROR));
 
-    Console::success('d. - Average number of posts per user per month');
+    Console::success('d. - Average number of posts per user per month. "user":posts_count');
     Console::line(json_encode($statResult['avgPostCountPerUserByMonth'], JSON_THROW_ON_ERROR));
 
 } catch (Exception $e) {
