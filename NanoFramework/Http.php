@@ -24,8 +24,11 @@ class Http implements HttpInterface
     {
         $ch = [];
 
+        /**
+         * @psalm-suppress PossiblyInvalidCast
+         */
         $urlsArr = (array)(is_array($urls)) ? (array)$urls : [0 => (string)$urls];
-        $responses = new SplFixedArray(count($urls));
+        $responses = new SplFixedArray(count($urlsArr));
 
         try {
             $mh = curl_multi_init();
@@ -56,7 +59,9 @@ class Http implements HttpInterface
 
             curl_multi_close($mh);
 
-        } catch (Throwable) {
+        } catch (Throwable $e) {
+
+            (new Logger(config()))->error((string)$e);
 
             return null;
         }
