@@ -27,6 +27,10 @@ function config(): object
             'time' => 3600,
             'time_posts' => 60,
         ],
+        'log' => (object)[
+            'path' => 'data/log/',
+            'file' => 'app.log',
+        ],
         'db' => (object)[
             'path' => 'data/base/',
         ],
