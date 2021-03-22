@@ -11,6 +11,8 @@
 
 ![PEST test](data/images/pest.png?raw=true "PEST test")
 
+![PSALM result](data/images/psalm.png?raw=true "PSALM result")
+
 ## Features
 - NO use of existing frameworks (created NanoFramework just for task)
 - NO use of external modules/libraries
@@ -19,7 +21,7 @@
 - Composer & PSR autoload
 - Curl multi execution, query urls in parallel
 - Custom exceptions
-- SPL Logs/Cache
+- PSR Logs/Cache
 - DB - file/table for a yielding reading by rows
 - Console colored prints to the screen
 - Psalm statistic analyze
@@ -39,6 +41,11 @@
 #### Hot start
 1. Start reading from DB by row/post
 2. Send each post to Statistic calculator that aggregate data
+
+## Clone app
+```sh
+$ git clone https://github.com/GeorgII-web/supermetrics
+```
 
 ## Run locally (required php8 & composer)
 
