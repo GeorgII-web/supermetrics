@@ -6,6 +6,7 @@ namespace App\Services;
 use App\Models\Post;
 use DateTime;
 use Exception;
+use JetBrains\PhpStorm\Pure;
 use RuntimeException;
 
 /**
@@ -66,7 +67,7 @@ class Statistics
      *
      * @param object $post
      */
-    private function calcSumPostsLengthByMonth(object $post)
+    private function calcSumPostsLengthByMonth(object $post): void
     {
         if (!array_key_exists($post->month, $this->statSumPostLengthByMonth)) {
             $this->statSumPostLengthByMonth[$post->month] = [
@@ -99,7 +100,7 @@ class Statistics
      *
      * @param object $post
      */
-    private function calcLongestPostsByMonth(object $post)
+    private function calcLongestPostsByMonth(object $post): void
     {
         if (!array_key_exists($post->month, $this->statLongestPostByMonth)) {
             $this->statLongestPostByMonth[$post->month] = [
@@ -135,7 +136,7 @@ class Statistics
      *
      * @param object $post
      */
-    private function calcTotalPostCountByWeek(object $post)
+    private function calcTotalPostCountByWeek(object $post): void
     {
         if (!array_key_exists($post->week, $this->statTotalPostCountByWeek)) {
             $this->statTotalPostCountByWeek[$post->week] = 0;
@@ -160,7 +161,7 @@ class Statistics
      *
      * @param object $post
      */
-    private function calcAvgPostCountPerUserByMonth(object $post)
+    private function calcAvgPostCountPerUserByMonth(object $post): void
     {
         if (!array_key_exists($post->from_id, $this->statAvgPostCountPerUserByMonth)) {
             $this->statAvgPostCountPerUserByMonth[$post->from_id] = [];
@@ -177,7 +178,7 @@ class Statistics
      *
      * @return array
      */
-    public function getAvgPostCountPerUserByMonth(): array
+    #[Pure] public function getAvgPostCountPerUserByMonth(): array
     {
         $res = [];
         foreach ($this->statAvgPostCountPerUserByMonth as $user => $userStat) {
