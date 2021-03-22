@@ -6,6 +6,7 @@ namespace App\Services;
 use App\Interfaces\ApiInterface;
 use Exception;
 use Generator;
+use NanoFramework\Interfaces\HttpInterface;
 use RuntimeException;
 use SplFixedArray;
 
@@ -16,7 +17,7 @@ use SplFixedArray;
  */
 class Api implements ApiInterface
 {
-    public function __construct(protected $http, protected object $config)
+    public function __construct(protected HttpInterface $http, protected object $config)
     {
     }
 
@@ -54,7 +55,7 @@ class Api implements ApiInterface
      * Generate urls array to an Api posts endpoint by chunks.
      *
      * @param int    $pageCount Total pages count
-     * @param string $token Token
+     * @param string $token     Token
      * @param int    $chunkSize Size of the chunk
      * @return array
      */
@@ -91,15 +92,22 @@ class Api implements ApiInterface
     {
         try {
 
-            return json_decode(
-                $this->http::post(
-                    $this->config->api->domain . $this->config->api->register,
-                    (array)$this->config->user
-                ),
-                true,
-                512,
-                JSON_THROW_ON_ERROR
-            )['data']['sl_token'];
+            $response = $this->http::post(
+                $this->config->api->domain . $this->config->api->register,
+                (array)$this->config->user
+            );
+
+            if ($response) {
+
+                return json_decode(
+                    (string)$response,
+                    true,
+                    512,
+                    JSON_THROW_ON_ERROR
+                )['data']['sl_token'];
+            }
+
+            throw new Exception;
 
         } catch (Exception) {
 
@@ -122,9 +130,9 @@ class Api implements ApiInterface
 
         foreach ($urlsChunks as $urlsChunk) {
 
-            yield $this->formatResponsesToPosts(
-                $this->http::get($urlsChunk)
-            );
+            if ($responses = $this->http::get($urlsChunk)) {
+                yield $this->formatResponsesToPosts($responses);
+            }
 
         }
     }
