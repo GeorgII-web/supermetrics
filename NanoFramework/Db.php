@@ -4,7 +4,9 @@ declare(strict_types=1);
 namespace NanoFramework;
 
 use Exception;
+use Generator;
 use JsonException;
+use NanoFramework\Interfaces\DbInterface;
 use RuntimeException;
 
 /**
@@ -12,7 +14,7 @@ use RuntimeException;
  *
  * @package NanoFramework
  */
-class Db
+class Db implements DbInterface
 {
     /**
      * Db file name for the table.
@@ -21,7 +23,7 @@ class Db
      */
     protected string $tableFilePrefix;
 
-    public function __construct(protected $config)
+    public function __construct(protected object $config)
     {
         $this->tableFilePrefix = $this->config->db->path . $this->config->user->client_id . '_';
     }
@@ -75,10 +77,10 @@ class Db
      * Read each row from table generator.
      *
      * @param string $table Table name
-     * @return \Generator
+     * @return Generator
      * @throws Exception
      */
-    public function readFromTableByRow(string $table): \Generator
+    public function readFromTableByRow(string $table): Generator
     {
         try {
             $f = fopen($this->tableFilePrefix . $table, 'rb');
