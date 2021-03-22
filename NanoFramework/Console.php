@@ -57,6 +57,9 @@ class Console
      */
     public static function indicator($message): void
     {
+        /**
+         * @psalm-suppress UndefinedConstant
+         */
         self::info(
             $message.
             ' Time: '. round(microtime(true) - APP_START, 4). ' Sec, '.
