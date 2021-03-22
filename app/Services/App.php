@@ -9,6 +9,8 @@ use Exception;
 use Generator;
 use JetBrains\PhpStorm\ArrayShape;
 use JetBrains\PhpStorm\Pure;
+use NanoFramework\Interfaces\CacheItemInterface;
+use NanoFramework\Interfaces\DbInterface;
 use RuntimeException;
 
 /**
@@ -25,15 +27,14 @@ class App
      */
     protected Post $postModel;
 
-    public function __construct(
+    #[Pure] public function __construct(
         protected Api $api,
-        protected $db,
-        protected $cache,
-        protected $config,
+        protected DbInterface $db,
+        protected CacheItemInterface $cache,
+        protected object $config,
         protected Statistics $statistics
     )
     {
-        $this->cache = new $cache;
         $this->postModel = new Post();
     }
 
@@ -60,8 +61,7 @@ class App
 
                 // Get posts from API
                 $postsGenerator = $this->api->getPostsIterator(
-                    $this->getToken(),
-                    $this->config->api->posts_pages
+                    $this->getToken()
                 );
 
                 // Save posts to the table
@@ -85,6 +85,7 @@ class App
      * Get each post by one generator.
      *
      * @return Generator
+     * @throws Exception
      */
     public function getPostsFromBase(): Generator
     {
