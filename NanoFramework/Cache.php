@@ -5,14 +5,14 @@ namespace NanoFramework;
 
 use DateTime;
 use Exception;
-use JsonException;
+use NanoFramework\Interfaces\CacheItemInterface;
 
 /**
  * Class Cache
  *
  * @package NanoFramework
  */
-class Cache
+class Cache implements CacheItemInterface
 {
     /**
      * Put data to cache by key.
@@ -30,7 +30,7 @@ class Cache
                     'time' => $time,
                 ], JSON_THROW_ON_ERROR)) > 0;
 
-        } catch (Exception $e) {
+        } catch (Exception) {
 
             return false;
         }
@@ -81,9 +81,9 @@ class Cache
 
             return true;
 
-        } catch (\Exception) {
+        } catch (Exception) {
 
-            throw new \Exception('Error clearing cache.');
+            throw new Exception('Error clearing cache.');
         }
     }
 }
