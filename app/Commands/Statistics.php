@@ -5,6 +5,7 @@ namespace App\Commands;
 
 use App\Services\Statistics;
 use Exception;
+use NanoFramework\Logger;
 use RuntimeException;
 use NanoFramework\Db;
 use App\Services\Api;
@@ -22,13 +23,13 @@ Console::line('Getting the Supermetrics Api posts statistics...');
 // Create new app instance
 $App = new App(
     api: new Api(
-    http: Http::class,
+    http: new Http,
     config: config()
 ),
     db: new Db(
     config: config()
 ),
-    cache: Cache::class,
+    cache: new Cache,
     config: config(),
     statistics: new Statistics
 );
@@ -68,6 +69,7 @@ try {
 
 } catch (Exception $e) {
 
+    (new Logger(config()))->error((string)$e);
     Console::error($e->getMessage());
 }
 
