@@ -11,7 +11,7 @@ class ApiTest extends TestCase
     public function testApiToken()
     {
         $token = (new Api(
-            http: Http::class,
+            http: new Http,
             config: config()
         ))->getToken();
 
@@ -21,7 +21,7 @@ class ApiTest extends TestCase
     public function testApiUrlsChunks()
     {
         $Api = (new Api(
-            http: Http::class,
+            http: new Http,
             config: config()
         ));
 
