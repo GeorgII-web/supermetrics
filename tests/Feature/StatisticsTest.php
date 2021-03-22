@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
 
 class StatisticsTest extends TestCase
 {
-    protected $stat = [];
+    protected array $stat = [];
 
     public function __construct(?string $name = null, array $data = [], $dataName = '')
     {
@@ -20,13 +20,13 @@ class StatisticsTest extends TestCase
 
         $App = new App(
             api: new Api(
-            http: Http::class,
+            http: new Http,
             config: config()
         ),
             db: new Db(
             config: config()
         ),
-            cache: Cache::class,
+            cache: new Cache,
             config: config(),
             statistics: new Statistics
         );
@@ -53,7 +53,7 @@ class StatisticsTest extends TestCase
 
     public function testTotalPostCountByWeek()
     {
-        $this->assertEquals(26, count($this->stat['totalPostCountByWeek']));
+        $this->assertEquals(27, count($this->stat['totalPostCountByWeek']));
     }
 
     public function testAvgPostLengthByMonth()
