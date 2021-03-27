@@ -51,7 +51,7 @@ class Console
     }
 
     /**
-     * Blue line.
+     * Indicator line, memory and execution time. 
      *
      * @param string $message Text
      */
