@@ -25,7 +25,7 @@
 - SPL FixedArray  
 - DB - file/table for a yielding reading by rows
 - Console colored prints to the screen
-- Psalm statistic analyze
+- Psalm static analysis tool
 - PHPUnit + tests
 
 ## Program steps
