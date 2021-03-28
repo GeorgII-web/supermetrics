@@ -42,6 +42,7 @@ class Db implements DbInterface
 
         } catch (Exception $e) {
 
+            (new Logger(config()))->error((string)$e);
             throw new RuntimeException('Clear table error.');
         }
     }
@@ -67,8 +68,9 @@ class Db implements DbInterface
 
             return true;
 
-        } catch (Exception) {
+        } catch (Exception $e) {
 
+            (new Logger(config()))->error((string)$e);
             throw new RuntimeException('Write to table error.');
         }
     }
@@ -103,8 +105,9 @@ class Db implements DbInterface
 
             fclose($f);
 
-        } catch (Exception) {
+        } catch (Exception $e) {
 
+            (new Logger(config()))->error((string)$e);
             throw new RuntimeException('Read from table error.');
         }
     }
