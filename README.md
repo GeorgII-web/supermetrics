@@ -26,7 +26,7 @@
 - DB - file/table for a yielding reading by rows
 - Console colored prints to the screen
 - Psalm static analysis tool
-- PHPUnit + tests
+- PHPUnit + PEST tests
 
 ## Program steps
 
