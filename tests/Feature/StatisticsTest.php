@@ -1,69 +1,64 @@
 <?php
 
-namespace Test\Feature;
-
 use App\Services\Api;
 use App\Services\App;
 use App\Services\Statistics;
 use NanoFramework\Cache;
 use NanoFramework\Db;
 use NanoFramework\Http;
-use PHPUnit\Framework\TestCase;
 
-class StatisticsTest extends TestCase
-{
-    protected array $stat = [];
 
-    public function __construct(?string $name = null, array $data = [], $dataName = '')
-    {
-        parent::__construct($name, $data, $dataName);
+//Prepare statistics information
+$App = new App(
+    api: new Api(
+    http: new Http,
+    config: config()
+),
+    db: new Db(
+    config: config()
+),
+    cache: new Cache,
+    config: config(),
+    statistics: new Statistics
+);
 
-        $App = new App(
-            api: new Api(
-            http: new Http,
-            config: config()
-        ),
-            db: new Db(
-            config: config()
-        ),
-            cache: new Cache,
-            config: config(),
-            statistics: new Statistics
-        );
+$stat = [
+    'totalPostsCount' => 0,
+    'avgPostLengthByMonth' => [],
+    'longestPostLengthByMonth' => [],
+    'totalPostCountByWeek' => [],
+    'avgPostCountPerUserByMonth' => [],
+];
 
-        if ($App->getPostsFromApiAndSaveToBase()) {
+try {
+    if ($App->getPostsFromApiAndSaveToBase()) {
 
-            foreach ($App->getPostsFromBase() as $post) {
-                $App->pushPostToStat($post);
-            }
-
-            $this->stat = $App->getStatisticsByRow();
+        foreach ($App->getPostsFromBase() as $post) {
+            $App->pushPostToStat($post);
         }
-    }
 
-    public function testPostsCount()
-    {
-        $this->assertEquals(1000, $this->stat['totalPostsCount']);
+        $stat = $App->getStatisticsByRow();
     }
-
-    public function testLongestPostLengthByMonth()
-    {
-        $this->assertEquals(6, count($this->stat['longestPostLengthByMonth']));
-    }
-
-    public function testTotalPostCountByWeek()
-    {
-        $weeksCount = count($this->stat['totalPostCountByWeek']);
-        $this->assertTrue($weeksCount === 27 || $weeksCount === 26);
-    }
-
-    public function testAvgPostLengthByMonth()
-    {
-        $this->assertEquals(6, count($this->stat['avgPostLengthByMonth']));
-    }
-
-    public function testAvgPostCountPerUserByMonth()
-    {
-        $this->assertEquals(20, count($this->stat['avgPostCountPerUserByMonth']));
-    }
+} catch (Exception) {
 }
+
+// Test statistics information
+test('posts count', function () use ($stat) {
+    expect($stat['totalPostsCount'])->toBe(1000);
+});
+
+test('longest post length by month', function () use ($stat) {
+    expect(count($stat['longestPostLengthByMonth']))->toBeGreaterThan(1);
+});
+
+test('total post count by week', function () use ($stat) {
+    expect(count($stat['totalPostCountByWeek']))->toBeGreaterThan(1);
+});
+
+test('avg post length by month', function () use ($stat) {
+    expect(count($stat['avgPostLengthByMonth']))->toBeGreaterThan(1);
+});
+
+test('avg post count per user by month', function () use ($stat) {
+    expect(count($stat['avgPostCountPerUserByMonth']))->toBeGreaterThan(1);
+});
