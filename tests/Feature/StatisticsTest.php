@@ -53,7 +53,8 @@ class StatisticsTest extends TestCase
 
     public function testTotalPostCountByWeek()
     {
-        $this->assertEquals(27, count($this->stat['totalPostCountByWeek']));
+        $weeksCount = count($this->stat['totalPostCountByWeek']);
+        $this->assertTrue($weeksCount === 27 || $weeksCount === 26);
     }
 
     public function testAvgPostLengthByMonth()
