@@ -16,5 +16,6 @@
 
     <issueHandlers>
         <UndefinedAttributeClass errorLevel="suppress" />
+        <InternalMethod errorLevel="suppress" />
     </issueHandlers>
 </psalm>
