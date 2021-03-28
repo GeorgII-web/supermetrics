@@ -76,16 +76,25 @@ class Http implements HttpInterface
      */
     public static function post(string $url, array $info): bool|string
     {
-        $ch = curl_init();
+        try {
 
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $info);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $ch = curl_init();
 
-        $server_output = curl_exec($ch);
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $info);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-        curl_close($ch);
+            $server_output = curl_exec($ch);
+
+            curl_close($ch);
+
+        } catch (Throwable $e) {
+
+            (new Logger(config()))->error((string)$e);
+
+            return false;
+        }
 
         return $server_output;
     }
