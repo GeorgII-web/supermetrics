@@ -8,7 +8,7 @@ use NanoFramework\Console;
 use NanoFramework\Cache;
 
 
-if ($argv[2] === 'clear') {
+if (key_exists(2, $argv) && $argv[2] === 'clear') {
     try {
         Cache::clear(config()->cache->path);
         Console::success('Cache cleared.');
@@ -16,4 +16,6 @@ if ($argv[2] === 'clear') {
         Console::error('Cache not cleared.');
         Console::line($e->getMessage());
     }
+} else {
+    Console::error('Undefined cache command.');
 }
